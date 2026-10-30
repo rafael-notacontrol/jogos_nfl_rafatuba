@@ -10,11 +10,11 @@ export default function Home() {
       <h1 className="text-center text-2xl font-bold">NFL Stats</h1>
       <p className="text-center text-2xl font-bold">NFL na palma de sua mão.</p>
       <div className="flex flex-col items-center justify-center gap-4 w-full mt-4">
-        <Button fullWidth onPress={() => navigate("/teams")}>
+        <Button fullWidth variant="danger" onPress={() => navigate("/teams")}>
           Ver Times
         </Button>
 
-        <Button fullWidth onPress={() => navigate("/games")}>
+        <Button fullWidth variant="danger" onPress={() => navigate("/games")}>
           Ver Jogos
         </Button>
       </div>
