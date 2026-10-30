@@ -1,7 +1,7 @@
 export interface Game {
   id: number;
   date: string;
-  season: number;
+  season: number | null;
   week: number;
   status: string;
   venue: string;

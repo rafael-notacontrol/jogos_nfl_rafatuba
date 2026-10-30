@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { getGames, type Game } from "../../services/gamesService";
 import { useNavigate } from "react-router";
-import { Button } from "@heroui/react";
+import { Button, Card, Label, ListBox, Select } from "@heroui/react";
 import { ArrowCircleLeftIcon } from "@phosphor-icons/react";
+import { getGames, type Game } from "../../services/gamesService";
 
 function Games() {
-  const [season, setSeason] = useState(2026);
-  const [week, setWeek] = useState(8);
+  const season = 2026;
 
+  const [week, setWeek] = useState(8);
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +32,7 @@ function Games() {
     }
 
     loadGames();
-  }, [season, week]);
+  }, [week]);
 
   return (
     <>
@@ -41,40 +41,46 @@ function Games() {
         variant="danger"
         onPress={() => navigate("/")}
       >
-        {<ArrowCircleLeftIcon size={32} />}
+        <ArrowCircleLeftIcon size={32} />
       </Button>
+
       <main className="flex flex-col items-center justify-center gap-4">
         <h1 className="text-center text-2xl font-bold">Jogos da NFL</h1>
 
-        <div>
-          <label htmlFor="season">Temporada:</label>
+        <h2 className="text-center text-2xl font-bold">Temporada {season}</h2>
 
-          <select
-            id="season"
-            value={season}
-            onChange={(e) => setSeason(Number(e.target.value))}
-          >
-            {Array.from({ length: 7 }, (_, i) => 2026 - i).map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
+        <Select
+          className="w-[256px]"
+          placeholder="Selecione uma semana"
+          value={String(week)}
+          onChange={(value) => {
+            if (value !== null) {
+              setWeek(Number(value));
+            }
+          }}
+        >
+          <Label>Semana</Label>
 
-          <label htmlFor="week">Semana:</label>
+          <Select.Trigger>
+            <Select.Value />
+            <Select.Indicator />
+          </Select.Trigger>
 
-          <select
-            id="week"
-            value={week}
-            onChange={(e) => setWeek(Number(e.target.value))}
-          >
-            {Array.from({ length: 18 }, (_, i) => i + 1).map((number) => (
-              <option key={number} value={number}>
-                Semana {number}
-              </option>
-            ))}
-          </select>
-        </div>
+          <Select.Popover>
+            <ListBox selectionMode="single">
+              {Array.from({ length: 18 }, (_, i) => i + 1).map((number) => (
+                <ListBox.Item
+                  key={number}
+                  id={String(number)}
+                  textValue={`Semana ${number}`}
+                >
+                  Semana {number}
+                  <ListBox.ItemIndicator />
+                </ListBox.Item>
+              ))}
+            </ListBox>
+          </Select.Popover>
+        </Select>
 
         {loading && <p>Carregando jogos...</p>}
 
@@ -87,26 +93,38 @@ function Games() {
         {!loading &&
           !error &&
           games.map((game) => (
-            <article key={game.id}>
-              <h3>
-                {game.visitor_team.full_name} x {game.home_team.full_name}
-              </h3>
+            <Card
+              key={game.id}
+              className="w-full max-w-md overflow-hidden border border-accent/20 bg-linear-to-br from-accent/12 via-surface to-surface-secondary shadow-lg shadow-accent/10 dark:border-accent/30 dark:from-accent/20 dark:via-surface dark:to-accent/8 dark:shadow-accent/5"
+            >
+              <Card.Content className="flex flex-col items-center gap-2 p-2">
+                {/* Times */}
+                <h3 className="text-center text-md font-bold">
+                  {game.visitor_team.full_name} x {game.home_team.full_name}
+                </h3>
 
-              <h3>
-                {game.visitor_team_score ?? "0"} x {game.home_team_score ?? "0"}
-              </h3>
+                {/* Placar */}
+                <p className="text-2xl font-extrabold">
+                  {game.visitor_team_score ?? 0} x {game.home_team_score ?? 0}
+                </p>
 
-              <p>
-                {new Date(game.date).toLocaleString("pt-BR", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
-              <p>{game.venue}</p>
-            </article>
+                {/* Data e horário */}
+                <p className="text-md text-default-500">
+                  {new Date(game.date).toLocaleString("pt-BR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+
+                {/* Local */}
+                {game.venue && (
+                  <p className="text-sm text-default-500">{game.venue}</p>
+                )}
+              </Card.Content>
+            </Card>
           ))}
       </main>
     </>
