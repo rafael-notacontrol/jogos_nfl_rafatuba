@@ -7,8 +7,10 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center justify-center gap-4">
       <img src={logo} alt="Logo do app" width="70" />
-      <h1 className="text-center text-2xl font-bold">NFL Stats</h1>
-      <p className="text-center text-2xl font-bold">NFL na palma de sua mão.</p>
+      <h1 className="text-center text-2xl font-bold">NFL Games</h1>
+      <p className="text-center text-2xl font-bold">
+        Todos os jogos da NFL na palma de sua mão.
+      </p>
       <div className="flex flex-col items-center justify-center gap-4 w-full mt-4">
         <Button fullWidth variant="danger" onPress={() => navigate("/teams")}>
           Ver Times
