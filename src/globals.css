@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+@layer components {
+  .page-container {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 48rem;
+    padding-inline: 1rem;
+    padding-block: 1.5rem;
+  }
+}
