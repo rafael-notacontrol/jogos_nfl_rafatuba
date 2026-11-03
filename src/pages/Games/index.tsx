@@ -7,7 +7,7 @@ import { getGames, type Game } from "../../services/gamesService";
 function Games() {
   const season = 2026;
 
-  const [week, setWeek] = useState(8);
+  const [week, setWeek] = useState(9);
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
