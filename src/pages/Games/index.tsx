@@ -14,6 +14,21 @@ function Games() {
 
   const navigate = useNavigate();
 
+  function getGameStatus(game: Game) {
+    if (game.status === "Final" || game.status === "Final/OT") {
+      return "Finalizado";
+    }
+
+    const gameDate = new Date(game.date);
+    const now = new Date();
+
+    if (now < gameDate) {
+      return "Agendado";
+    }
+
+    return "Em andamento";
+  }
+
   useEffect(() => {
     async function loadGames() {
       setLoading(true);
@@ -105,7 +120,8 @@ function Games() {
 
                 {/* Placar */}
                 <p className="text-2xl font-extrabold">
-                  {game.visitor_team_score ?? 0} x {game.home_team_score ?? 0}
+                  {game.visitor_team_score ?? "-"} x{" "}
+                  {game.home_team_score ?? "-"}
                 </p>
 
                 {/* Data e horário */}
@@ -123,6 +139,10 @@ function Games() {
                 {game.venue && (
                   <p className="text-sm text-default-500">{game.venue}</p>
                 )}
+
+                <p className="text-sm font-semibold text-accent">
+                  {getGameStatus(game)}
+                </p>
               </Card.Content>
             </Card>
           ))}
