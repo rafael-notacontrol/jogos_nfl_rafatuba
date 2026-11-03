@@ -1,36 +1,50 @@
 import { useEffect, useState } from "react";
-import { getTeams, type Team } from "../../services/teamsService";
-import { useNavigate } from "react-router";
-import { Button } from "@heroui/react";
+import {
+  buscarClassificacao,
+  type TimeNFL,
+} from "../../services/estatisticasService";
+import { Button, Card, CardContent } from "@heroui/react";
 import { ArrowCircleLeftIcon } from "@phosphor-icons/react";
+import { useNavigate } from "react-router";
 
-function Teams() {
-  const [teams, setTeams] = useState<Team[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export default function Teams() {
+  const [times, setTimes] = useState<TimeNFL[]>([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function loadTeams() {
+    async function carregarClassificacao() {
       try {
-        const data = await getTeams();
-        setTeams(data);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Erro ao carregar os times.",
-        );
+        const dados = await buscarClassificacao();
+        setTimes(dados);
+      } catch (error) {
+        console.error(error);
+        setErro("Não foi possível carregar a classificação.");
       } finally {
-        setLoading(false);
+        setCarregando(false);
       }
     }
 
-    loadTeams();
+    carregarClassificacao();
   }, []);
 
-  if (loading) return <p>Carregando times...</p>;
+  function exibirCampanha(time: TimeNFL) {
+    if (time.empates > 0) {
+      return `${time.vitorias} - ${time.derrotas} - ${time.empates}`;
+    }
 
-  if (error) return <p>{error}</p>;
+    return `${time.vitorias} - ${time.derrotas}`;
+  }
+
+  if (carregando) {
+    return <p>Carregando classificação...</p>;
+  }
+
+  if (erro) {
+    return <p>{erro}</p>;
+  }
 
   return (
     <>
@@ -39,22 +53,36 @@ function Teams() {
         variant="danger"
         onPress={() => navigate("/")}
       >
-        {<ArrowCircleLeftIcon size={32} />}
+        <ArrowCircleLeftIcon size={32} />
       </Button>
       <main className="flex flex-col items-center justify-center gap-4">
-        <h1 className="text-center text-2xl font-bold">Times da NFL</h1>
+        <div className="flex flex-col gap-3">
+          {times.map((time) => (
+            <Card
+              key={time.id}
+              className="w-full max-w-md overflow-hidden border border-accent/20 bg-linear-to-br from-accent/12 via-surface to-surface-secondary shadow-lg shadow-accent/10 dark:border-accent/30 dark:from-accent/20 dark:via-surface dark:to-accent/8 dark:shadow-accent/5"
+            >
+              <CardContent>
+                <div className="flex items-center gap-3">
+                  <img
+                    src={time.logo}
+                    alt={time.nome}
+                    className="w-12 h-12 object-contain"
+                  />
 
-        {teams.map((team) => (
-          <article key={team.id}>
-            <h2>{team.full_name}</h2>
-            <p>
-              {team.conference} — {team.division}
-            </p>
-          </article>
-        ))}
+                  <div className="flex flex-col">
+                    <span className="font-semibold">{time.nome}</span>
+
+                    <span className="text-sm text-default-500">
+                      {exibirCampanha(time)}
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </main>
     </>
   );
 }
-
-export default Teams;
