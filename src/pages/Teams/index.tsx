@@ -56,6 +56,7 @@ export default function Teams() {
         <ArrowCircleLeftIcon size={32} />
       </Button>
       <main className="flex flex-col items-center justify-center gap-4">
+        <h2 className="text-center text-2xl font-bold">Temporada 2026</h2>
         <div className="flex flex-col gap-3">
           {times.map((time) => (
             <Card
@@ -70,7 +71,7 @@ export default function Teams() {
                     className="w-12 h-12 object-contain"
                   />
 
-                  <div className="flex flex-col">
+                  <div className="flex items-center gap-4 justify-center">
                     <span className="font-semibold">{time.nome}</span>
 
                     <span className="text-sm text-default-500">
