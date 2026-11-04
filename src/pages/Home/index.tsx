@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 import logo from "../../assets/american-football.png";
 import { Button } from "@heroui/react";
+import SlideLogos from "../../components/SlideLogos";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export default function Home() {
           Ver Jogos
         </Button>
       </div>
+      <SlideLogos />
     </main>
   );
 }
