@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { Button, Card, Label, ListBox, Select } from "@heroui/react";
+import { Button, Card, Label, NumberField } from "@heroui/react";
 import { ArrowCircleLeftIcon } from "@phosphor-icons/react";
 import { getGames, type Game } from "../../services/gamesService";
 import SkeletonComponent from "../../components/Skeleton";
@@ -65,50 +65,34 @@ function Games() {
 
       <main className="flex flex-col items-center justify-center gap-4">
         <h1 className="text-center text-2xl font-bold">Jogos da NFL</h1>
-
         <h2 className="text-center text-2xl font-bold">Temporada {season}</h2>
-
-        <Select
-          className="w-[256px]"
-          placeholder="Selecione uma semana"
-          value={String(week)}
+        <NumberField
+          className="w-full max-w-48"
+          defaultValue={9}
+          minValue={1}
+          maxValue={18}
+          name="semana"
+          variant="secondary"
+          value={week}
           onChange={(value) => {
             if (value !== null) {
               setWeek(Number(value));
             }
           }}
         >
-          <Label>Semana</Label>
-
-          <Select.Trigger>
-            <Select.Value />
-            <Select.Indicator />
-          </Select.Trigger>
-
-          <Select.Popover>
-            <ListBox selectionMode="single">
-              {Array.from({ length: 18 }, (_, i) => i + 1).map((number) => (
-                <ListBox.Item
-                  key={number}
-                  id={String(number)}
-                  textValue={`Semana ${number}`}
-                >
-                  Semana {number}
-                  <ListBox.ItemIndicator />
-                </ListBox.Item>
-              ))}
-            </ListBox>
-          </Select.Popover>
-        </Select>
+          <Label className="font-medium text-foreground">Semana</Label>
+          <NumberField.Group className="rounded-xl bg-default">
+            <NumberField.DecrementButton className="text-muted hover:text-foreground" />
+            <NumberField.Input className="text-center tabular-nums" />
+            <NumberField.IncrementButton className="text-muted hover:text-foreground" />
+          </NumberField.Group>
+        </NumberField>
 
         {loading && <SkeletonComponent />}
-
         {error && <p>{error}</p>}
-
         {!loading && !error && games.length === 0 && (
           <p>Nenhum jogo encontrado para esta semana.</p>
         )}
-
         {!loading &&
           !error &&
           games.map((game) => (
