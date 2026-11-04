@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { Button, Card, Label, ListBox, Select } from "@heroui/react";
 import { ArrowCircleLeftIcon } from "@phosphor-icons/react";
 import { getGames, type Game } from "../../services/gamesService";
+import SkeletonComponent from "../../components/Skeleton";
 
 function Games() {
   const season = 2026;
@@ -97,7 +98,7 @@ function Games() {
           </Select.Popover>
         </Select>
 
-        {loading && <p>Carregando jogos...</p>}
+        {loading && <SkeletonComponent />}
 
         {error && <p>{error}</p>}
 

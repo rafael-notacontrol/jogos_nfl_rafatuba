@@ -39,7 +39,7 @@ export default function Teams() {
   }
 
   if (carregando) {
-    return <p>Carregando classificação...</p>;
+    return <p>Carregando times...</p>;
   }
 
   if (erro) {
