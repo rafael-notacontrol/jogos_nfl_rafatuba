@@ -4,6 +4,7 @@ import { Button, Card, Label, ListBox, Select } from "@heroui/react";
 import { ArrowCircleLeftIcon } from "@phosphor-icons/react";
 import { getGames, type Game } from "../../services/gamesService";
 import SkeletonComponent from "../../components/Skeleton";
+import { ModalComponent } from "../../components/Modal";
 
 function Games() {
   const season = 2026;
@@ -59,6 +60,8 @@ function Games() {
       >
         <ArrowCircleLeftIcon size={32} />
       </Button>
+
+      <ModalComponent />
 
       <main className="flex flex-col items-center justify-center gap-4">
         <h1 className="text-center text-2xl font-bold">Jogos da NFL</h1>
