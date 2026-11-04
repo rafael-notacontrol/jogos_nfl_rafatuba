@@ -12,8 +12,8 @@ export function ModalComponent() {
       >
         <CalendarDotsIcon size={32} />
       </Button>
-      <Modal.Backdrop>
-        <Modal.Container>
+      <Modal.Backdrop variant="blur">
+        <Modal.Container placement="top" size="sm" className="mt-20">
           <Modal.Dialog>
             <Modal.CloseTrigger />
             <Modal.Body>
