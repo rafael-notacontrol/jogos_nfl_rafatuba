@@ -105,6 +105,20 @@ function Games() {
 
             if (!awayTeam || !homeTeam) return null;
 
+            const dataJogo = new Date(competition.date);
+
+            const dataFormatada = dataJogo.toLocaleString("pt-BR", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+
+            const diaSemana = dataJogo.toLocaleDateString("pt-BR", {
+              weekday: "long",
+            });
+
             return (
               <Card
                 key={game.id}
@@ -155,13 +169,7 @@ function Games() {
 
                   {/* Data e horário */}
                   <p className="text-sm text-default-500">
-                    {new Date(competition.date).toLocaleString("pt-BR", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
+                    {diaSemana} {dataFormatada}
                   </p>
 
                   {/* Estádio */}
