@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Button, Card } from "@heroui/react";
-import { ArrowCircleLeftIcon } from "@phosphor-icons/react";
+import { ArrowCircleLeftIcon, MonitorPlayIcon } from "@phosphor-icons/react";
 
 import {
   ScoreBoardEspnApi,
@@ -95,6 +95,8 @@ function Games() {
           games.map((game) => {
             const competition = game.competitions[0];
 
+            const highlights = competition.highlights;
+
             const awayTeam = competition.competitors.find(
               (team) => team.homeAway === "away",
             );
@@ -124,15 +126,15 @@ function Games() {
                 key={game.id}
                 className="w-full max-w-md overflow-hidden border border-accent/20 bg-linear-to-br from-accent/12 via-surface to-surface-secondary shadow-lg shadow-accent/10 dark:border-accent/30 dark:from-accent/20 dark:via-surface dark:to-accent/8 dark:shadow-accent/5"
               >
-                <Card.Content className="flex flex-col items-center gap-3 p-3">
+                <Card.Content className="flex flex-col items-center gap-2 p-2 relative">
                   {/* Times e logos */}
                   <div className="grid w-full grid-cols-2 items-center gap-2">
                     {/* Visitante */}
-                    <div className="flex flex-col items-center gap-1">
+                    <div className="flex flex-col items-center">
                       <img
                         src={awayTeam.team.logo}
                         alt={awayTeam.team.displayName}
-                        className="h-16 w-16 object-contain"
+                        className="h-14 w-14 object-contain"
                       />
 
                       <h3 className="text-center text-sm font-bold">
@@ -145,11 +147,11 @@ function Games() {
                     </div>
 
                     {/* Mandante */}
-                    <div className="flex flex-col items-center gap-1">
+                    <div className="flex flex-col items-center">
                       <img
                         src={homeTeam.team.logo}
                         alt={homeTeam.team.displayName}
-                        className="h-16 w-16 object-contain"
+                        className="h-14 w-14 object-contain"
                       />
 
                       <h3 className="text-center text-sm font-bold">
@@ -166,16 +168,17 @@ function Games() {
                   <p className="text-2xl font-extrabold">
                     {awayTeam.score ?? "-"} x {homeTeam.score ?? "-"}
                   </p>
+                  <div className="flex flex-col items-center">
+                    {/* Data e horário */}
+                    <p className="text-sm text-default-500">
+                      {diaSemana} {dataFormatada}
+                    </p>
 
-                  {/* Data e horário */}
-                  <p className="text-sm text-default-500">
-                    {diaSemana} {dataFormatada}
-                  </p>
-
-                  {/* Estádio */}
-                  <p className="text-sm text-default-500">
-                    {competition.venue.fullName}
-                  </p>
+                    {/* Estádio */}
+                    <p className="text-sm text-default-500">
+                      {competition.venue.fullName}
+                    </p>
+                  </div>
 
                   {/* Status */}
                   <p
@@ -187,6 +190,21 @@ function Games() {
                   >
                     {getGameStatus(game)}
                   </p>
+
+                  {highlights && highlights.length > 0 && (
+                    <Button
+                      className="absolute bottom-4 right-4"
+                      isIconOnly
+                      variant="outline"
+                      size="sm"
+                      onPress={() =>
+                        window.open(highlights[0].links?.source?.href, "_blank")
+                      }
+                      aria-label="Assistir aos melhores momentos"
+                    >
+                      <MonitorPlayIcon size={32} />
+                    </Button>
+                  )}
                 </Card.Content>
               </Card>
             );

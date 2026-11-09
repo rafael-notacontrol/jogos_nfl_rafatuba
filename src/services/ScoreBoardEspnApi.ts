@@ -8,6 +8,16 @@ export interface Team {
   logo: string;
 }
 
+export interface Highlight {
+  id: number;
+  headline: string;
+  links?: {
+    source?: {
+      href: string;
+    };
+  };
+}
+
 export interface Competitor {
   id: string;
   homeAway: string;
@@ -34,6 +44,7 @@ export interface Competition {
       completed: boolean;
     };
   };
+  highlights?: Highlight[];
 }
 
 export interface Event {
