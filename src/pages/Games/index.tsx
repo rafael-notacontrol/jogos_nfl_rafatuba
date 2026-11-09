@@ -178,7 +178,13 @@ function Games() {
                   </p>
 
                   {/* Status */}
-                  <p className="text-sm font-semibold text-accent">
+                  <p
+                    className={`text-sm font-semibold ${
+                      getGameStatus(game) === "Finalizado"
+                        ? "text-success"
+                        : "text-accent"
+                    }`}
+                  >
                     {getGameStatus(game)}
                   </p>
                 </Card.Content>
