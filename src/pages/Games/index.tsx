@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Button, Card } from "@heroui/react";
 import { ArrowCircleLeftIcon, MonitorPlayIcon } from "@phosphor-icons/react";
+import VideoPlayer from "../../components/VideoPlayer";
 
 import {
   ScoreBoardEspnApi,
@@ -17,6 +18,7 @@ function Games() {
   const [week, setWeek] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
@@ -88,6 +90,10 @@ function Games() {
 
         {!loading && !error && games.length === 0 && (
           <p>Nenhum jogo encontrado para esta semana.</p>
+        )}
+
+        {videoUrl && (
+          <VideoPlayer videoUrl={videoUrl} onClose={() => setVideoUrl(null)} />
         )}
 
         {!loading &&
@@ -198,7 +204,7 @@ function Games() {
                       variant="outline"
                       size="sm"
                       onPress={() =>
-                        window.open(highlights[0].links?.source?.href, "_blank")
+                        setVideoUrl(highlights[0].links?.source?.href ?? null)
                       }
                       aria-label="Assistir aos melhores momentos"
                     >
