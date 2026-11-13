@@ -3,6 +3,7 @@ const API_URL =
 
 export interface Team {
   id: string;
+  name: string;
   displayName: string;
   abbreviation: string;
   logo: string;

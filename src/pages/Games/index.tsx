@@ -12,6 +12,7 @@ import {
 
 import SkeletonComponent from "../../components/Skeleton";
 import { ModalComponent } from "../../components/Modal";
+import DescansoTimes from "../../components/DescansoTimes";
 
 function Games() {
   const [games, setGames] = useState<Event[]>([]);
@@ -83,6 +84,7 @@ function Games() {
         {!loading && !error && (
           <h2 className="text-center text-lg font-semibold">Semana {week}</h2>
         )}
+        <DescansoTimes />
 
         {loading && <SkeletonComponent />}
 
