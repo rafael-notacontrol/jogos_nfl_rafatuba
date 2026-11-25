@@ -17,7 +17,7 @@ export default function DescansoTimes() {
       setError(null);
       try {
         const data = await ScoreBoardEspnApi();
-        setDescansoTimes(data.week.teamsOnBye ?? []);
+        setDescansoTimes(data.week?.teamsOnBye ?? []);
       } catch (err) {
         setError(
           err instanceof Error ? err.message : "Erro ao carregar os times.",
