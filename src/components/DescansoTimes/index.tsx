@@ -17,7 +17,7 @@ export default function DescansoTimes() {
       setError(null);
       try {
         const data = await ScoreBoardEspnApi();
-        setDescansoTimes(data.week.teamsOnBye);
+        setDescansoTimes(data.week.teamsOnBye ?? []);
       } catch (err) {
         setError(
           err instanceof Error ? err.message : "Erro ao carregar os times.",
@@ -32,9 +32,11 @@ export default function DescansoTimes() {
 
   return (
     <div className="flex flex-col justify-center items-center gap-2">
-      <h2 className="text-center text-lg font-semibold">
-        Times em Descanso(on bye):
-      </h2>
+      {!loading && !error && descansoTimes.length > 0 && (
+        <h2 className="text-center text-lg font-semibold">
+          Times em Descanso (on bye):
+        </h2>
+      )}
       {error && <p style={{ color: "red" }}>{error}</p>}
       {loading && <p>Carregando...</p>}
       {!loading && !error && (
